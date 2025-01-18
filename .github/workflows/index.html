@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salary Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      color: #fff;
+      background-color: #28a745;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .result {
+      max-width: 500px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .result p {
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Salary Calculator</h1>
+  <form id="salaryForm">
+    <div class="form-group">
+      <label for="designation">Name of Designation:</label>
+      <select id="designation" required>
+        <option value="">Select</option>
+        <option value="Driver">Driver</option>
+        <option value="LDC">LDC</option>
+        <option value="UDC">UDC</option>
+        <option value="Peon">Peon</option>
+        <option value="Assistant">Assistant</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="department">Department:</label>
+      <select id="department" required>
+        <option value="">Select</option>
+        <option value="Rural Development">Rural Development</option>
+        <option value="Education">Education</option>
+        <option value="Secretariate">Secretariate</option>
+        <option value="Taxation">Taxation</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="payLevel">Pay Level:</label>
+      <select id="payLevel" required>
+        <option value="">Select</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="basicPay">Basic Pay:</label>
+      <select id="basicPay" required>
+        <option value="">Select</option>
+        <option value="5000">5000</option>
+        <option value="8000">8000</option>
+        <option value="9000">9000</option>
+        <option value="10000">10000</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <select id="location" required>
+        <option value="">Select</option>
+        <option value="2700">Aizawl, Kolasib, Mamit</option>
+        <option value="3500">Lawngtlai, Siaha, Champhai</option>
+      </select>
+    </div>
+    <button type="button" onclick="calculateSalary()">Calculate Salary</button>
+  </form>
+
+  <div class="result" id="result" style="display:none;">
+    <h2>Salary Breakdown</h2>
+    <p id="designationResult"></p>
+    <p id="departmentResult"></p>
+    <p id="basicPayResult"></p>
+    <p id="daResult"></p>
+    <p id="hraResult"></p>
+    <p id="scaResult"></p>
+    <p id="totalSalaryResult"></p>
+  </div>
+
+  <script>
+    function calculateSalary() {
+      // Input values
+      const designation = document.getElementById('designation').value;
+      const department = document.getElementById('department').value;
+      const payLevel = document.getElementById('payLevel').value;
+      const basicPay = parseFloat(document.getElementById('basicPay').value);
+      const sca = parseFloat(document.getElementById('location').value);
+
+      if (!designation || !department || !payLevel || isNaN(basicPay) || isNaN(sca)) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      // Calculations (with rounding)
+      const da = (basicPay * 0.4).toFixed(2); // DA = 40% of basic pay
+      const hra = (basicPay * 0.07).toFixed(2); // HRA = 7% of basic pay
+      const totalSalary = (parseFloat(basicPay) + parseFloat(da) + parseFloat(hra) + parseFloat(sca)).toFixed(2); // Total salary formula
+
+      // Display results
+      document.getElementById('designationResult').textContent = `Designation: ${designation}`;
+      document.getElementById('departmentResult').textContent = `Department: ${department}`;
+      document.getElementById('basicPayResult').textContent = `Basic Pay: ₹${basicPay.toFixed(2)}`;
+      document.getElementById('daResult').textContent = `DA (40%): ₹${da}`;
+      document.getElementById('hraResult').textContent = `HRA (7%): ₹${hra}`;
+      document.getElementById('scaResult').textContent = `SCA: ₹${sca.toFixed(2)}`;
+      document.getElementById('totalSalaryResult').textContent = `Total Salary: ₹${totalSalary}`;
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
